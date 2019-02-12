@@ -1,0 +1,89 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Tienda{% endblock %}
+
+{% block content %}
+<div class="container bg-galery mb-5" >
+{% for producto in object_list %}
+{% if producto.available%}
+<hr class="style1">
+<div class="row ">
+    <div class ="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+        <a href="{% url 'store:product' producto.id producto.name|slugify %}"><img src="{{producto.image.url}}" style="width:100%" class="cursor mb-3"/></a>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+            
+             <p class="storeTitle"><a href="{% url 'store:product' producto.id producto.name|slugify %}" class="link2">{{ producto.name }} </a></p>
+            <!--<p class= "storeDescription">{% lorem 1 %}</p>-->
+            <p class= "storeDescription">{{ producto.description|safe }}</p>            
+            <div class="mt-5">
+            <p class="storePrice">${{ producto.prize }} MXN</p>
+            {{producto.paypalButton|safe}}
+            </div>
+    </div>         
+</div>
+{%endif%}
+{% endfor %}
+</div>
+
+<div class="center">
+
+<div class="container-fluid bg-light">
+    <div>    
+    {% if  page_obj.paginator.num_pages %}
+    <span class="current">
+               Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+    </div>
+    {%endif%}   
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ page_obj.previous_page_number }}"> &lt; Anterior </a>
+            {% endif %} 
+
+            {% if page_obj.paginator.num_pages > 5 %} 
+                {%  if page_obj.number < 5 %}
+                    <a href="?page=1"  class=" {%if page_obj.number == 1 %} active {% endif %}" >1</a>
+                    <a href="?page=2"  class=" {%if page_obj.number == 2 %} active {% endif %}" >2</a>
+                    <a href="?page=3"  class=" {%if page_obj.number == 3 %} active {% endif %}" >3</a>
+                    <a href="?page=4"  class=" {%if page_obj.number == 4 %} active {% endif %}" >4</a>
+                    <a href="?page=5"  class=" {%if page_obj.number == 5 %} active {% endif %}" >5</a>                    
+                {% else %}
+                    <a href="?page={{page_obj.number|add:'-2'}}" >{{page_obj.number|add:'-2'}}</a>
+                    <a href="?page={{page_obj.number|add:'-1'}}" >{{page_obj.number|add:'-1'}}</a>
+                    <a href="?page={{page_obj.number}}"  class=" active" >{{page_obj.number}}</a>
+                    {% if  page_obj.number|add:1 <= page_obj.paginator.num_pages %}
+                        <a href="?page={{page_obj.number|add:'1'}}">{{page_obj.number|add:'1'}}</a>
+                    {%endif%}
+                    {% if  page_obj.number|add:2 <= page_obj.paginator.num_pages %}
+                        <a href="?page={{page_obj.number|add:'2'}}">{{page_obj.number|add:'2'}}</a>                    
+                    {%endif%}
+                {% endif %}
+                
+
+            {%else%}
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <a href="?page={{i}}" class="active" >{{i}}</a>
+                    {% else %}
+                        <a href="?page={{i}}">{{i}}</a>                    
+                    {% endif %}
+                {% endfor %}       
+            {%endif%}
+            
+
+                             
+                        
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"> Siguiente &gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">  &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+</div>
+
+{% endblock %}

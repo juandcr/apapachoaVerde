@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+
+
+{% for post in category.get_posts.all %}
+<section class="page-section cta">
+    <div class="container bg-light mt-3 rounded ">
+        {# Each "post" is a post model object. #}
+        <div class="col-xl-9 mx-auto">
+            <div class="cta-innerv text-center rounded">
+                <h2 class="section-heading mb-3">
+                    <span class="section-heading-upper">{{post.title}}</span>                    
+                </h2>
+                <span class="section-heading-lower">{{post.published|date:"SHORT_DATE_FORMAT"}}</span>
+                
+                <p class="mb-0">
+                {% if post.image %}
+                    <img class="mx-auto d-flex rounded img-fluid mb-3 mb-lg-0 mt-2" src="{{post.image.url}}" alt="">
+                {%endif%}                
+                <p class="mb-0 mbt">{{post.content|safe}}</p>
+                 
+                </p>
+            </div>
+        </div>
+        <div class="col-xl-9 mx-auto">
+         <span class="section-heading-under"> <em><b>Categorias:</b></em>
+            {% for category in post.categories.all %}
+                    <a href="{% url 'category' category.id %}" class="linkCategory">{{category.name}}</a>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        </div>  
+    </div>    
+</section>
+{% endfor %}
+<div class="center">
+
+<div class="container-fluid bg-light">
+    <div>
+    {% if  page_obj.paginator.num_pages %}
+    <span class="current">
+               Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+    </div>
+    {%endif%}    
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ page_obj.previous_page_number }}"> &lt; Anterior </a>
+            {% endif %} 
+            
+
+             {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <a href="?page={{i}}" class="active" >{{i}}</a>                    
+                {% else %}
+                    <a href="?page={{i}}">{{i}}</a>                    
+                {% endif %}
+            {% endfor %}    
+                
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"> Siguiente &gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">  &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+</div>
+
+{% endblock %}

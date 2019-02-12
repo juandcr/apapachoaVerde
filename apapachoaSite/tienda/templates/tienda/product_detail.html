@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Tienda{% endblock %}
+
+{% block content %}
+<div class="container bg-galery mb-5" >
+
+{% if product.available%}
+<hr class="style1">
+<div class="row ">
+    <div class ="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <a href="{{product.image.url}}"><img src="{{product.image.url}}" style="width:100%" class="cursor mb-3"/></a>
+        <p class="font-weight-light" align="center">Click en la imagen para ver tamaño completo</p>        
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            
+            <p class="storeTitle">{{ product.name }} </p>
+            <!--<p class= "storeDescription">{% lorem 1 %}</p>-->
+            <p class= "storeDescription">{{ product.largeDescription|safe}}</p>            
+            <div class="mt-5">
+            <p class="storePrice">${{ product.prize }} MXN</p>
+            {{product.paypalButton|safe}}
+            </div>
+    </div>         
+</div>
+{%endif%}
+</div>
+{% endblock %}
