@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Home
+from .models import Home,Image
 
 # Register your models here.
 class HomeAdmin(admin.ModelAdmin):    
@@ -12,7 +12,11 @@ class HomeAdmin(admin.ModelAdmin):
         }        
 
 
+class ImageAdmin(admin.ModelAdmin):    
+    list_display = ('title', )               
+   
 
 admin.site.register(Home, HomeAdmin) 
+admin.site.register(Image, ImageAdmin) 
 
     

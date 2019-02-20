@@ -13,3 +13,14 @@ class Home(models.Model):
 
     def __str__(self):
         return self.title
+
+class Image(models.Model):
+    title= models.CharField(max_length=200, verbose_name='Título')    
+    image = models.ImageField(verbose_name="imágen inicio")
+
+    class Meta: 
+        verbose_name="imágen Inicio"
+        verbose_name_plural="imagenes inicio"        
+
+    def __str__(self):
+        return self.title

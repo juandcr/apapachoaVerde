@@ -2,6 +2,8 @@
 
 {% load static %}
 
+
+
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
@@ -10,11 +12,12 @@
     <section class="page-section clearfix">
       <div class="container">
         <div class="intro">
-          <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="{% static 'core/img/intro.png' %}" alt="">
+          <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="{{imagen.image.url}}" alt="">
           <div class="intro-text left-0 text-center bg-faded p-5 rounded">
             <h2 class="section-heading mb-4">
-              <span class="section-heading-upper">Reverdece tu vida</span>
-              <span class="section-heading-lower">Cuadros vivos</span>
+              <span class="section-heading-upper">{{bienvenido.text|safe}}</span>
+              <span class="section-heading-lower">{{titulo.text|safe}}</span>
+              
             </h2>            
             <p class="mb-3">{{home.text|safe}}</p>            
           </div>
